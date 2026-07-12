@@ -294,6 +294,7 @@ const QUESTION_COUNT = 30;
 /* ===== 상태 ===== */
 let ALL_MEANINGS = [];
 let state = { day:null, questions:[], idx:0, selected:null, timer:null, timeLeft:TIME_LIMIT };
+let completedDays = [];   // 완주한 Day 기록
 
 /* ===== 유틸 ===== */
 function shuffle(arr){
@@ -500,6 +501,7 @@ function submitWinner(){
     tr.innerHTML = `<td>${i+1}</td><td><b>${q.w}</b></td><td>${q.m}</td>`;
     table.appendChild(tr);
   });
+  if(!completedDays.includes(state.day)) completedDays.push(state.day);
   showScreen('screen-result');
 }
 
@@ -519,7 +521,9 @@ function clearRecords(){ alert('저장된 기록이 없습니다.'); }
 function goHome(){
   clearTimer();
   state = { day:null, questions:[], idx:0, selected:null, timer:null, timeLeft:TIME_LIMIT };
-  document.getElementById('daySelect').value = '';
+  document.getElementById('daySelect').innerHTML = '<option value="">Day를 선택하세요</option>';
+  initDaySelect();
+
   showScreen('screen-home');
 }
 
