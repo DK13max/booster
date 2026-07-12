@@ -288,8 +288,8 @@ Object.keys(WORDS_BY_DAY).forEach(function(d){WORDS_BY_DAY[d].forEach(function(x
 <script>
 /* ===== 상수 ===== */
 const ADMIN_PW = "7788";
-const TIME_LIMIT = 7;
-const QUESTION_COUNT = 20;
+const TIME_LIMIT = 5;
+const QUESTION_COUNT = 30;
 
 /* ===== 상태 ===== */
 let ALL_MEANINGS = [];
@@ -327,7 +327,7 @@ function pickDistractors(ans){
   const ordered = [...shuffle(good), ...shuffle(last), ...shuffle(backup)];
   const res = [];
   for(const m of ordered){
-    if(!res.includes(m) && m !== ans){ res.push(m); if(res.length===3) break; }
+    if(!res.includes(m) && m !== ans){ res.push(m); if(res.length===4) break; }
   }
   return res;
 }
@@ -338,6 +338,8 @@ function initDaySelect(){
   const sel = document.getElementById('daySelect');
   const days = Object.keys(WORDS_BY_DAY).sort((a,b)=>Number(a)-Number(b));
   days.forEach(d=>{
+    if(Number(d) < 20) return;              // Day 20 미만 제외
+    if(completedDays.includes(d)) return;   // 완주한 Day는 제외
     const opt = document.createElement('option');
     opt.value = d;
     opt.textContent = 'Day ' + d;
